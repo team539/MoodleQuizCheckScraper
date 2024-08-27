@@ -7,9 +7,17 @@
 
 ### 実行
 
-```shell
+* ansconfig.py に，意図した順に 'ans*' をリストする．
+
+```zsh
 cat review.html | python3 checkscraper.py > review.csv
 ```
 
 ### コマンドラインオプション
 `--noheading`,`-nh` 先頭のヘッディングを省く
+
+
+```zsh
+for file in review\ \(0\).html; do cat $file | python3 ~/G/00todo/MoodleQuizCheckScraper/checkscraper.py ; done  | head -n 1 > ahead.csv
+for file in  a/*review\ \(*\).html; do cat $file | python3 ~/G/00todo/MoodleQuizCheckScraper/checkscraper.py -nh ; done  >> a.csv
+```

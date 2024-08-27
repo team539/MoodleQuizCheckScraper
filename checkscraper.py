@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import csv
 import re
 import argparse
+import ansconfig
 
 def main():
     html_content = sys.stdin.read()
@@ -49,18 +50,25 @@ def main():
     if True:
         rows = table.find_all('tr')
         data = []
-
     
         for row in rows:
             record = row.find_all('td')  # Use 'th' if you want to extract headers
             record = [ele.text.strip() for ele in record]
             if record:
-                data.append(fixed+record)
+                submission=record[2]
+                
+                pattern = r'(ans\d+): ([^;]+) \[score\]'
+                matches = re.findall(pattern, submission) # from submission
 
-            #TODO: decompse ansn etc
-            
+                anslist=[]
+                for ans in ansconfig.anshead:
+                    result = next((tup[1] for tup in matches if tup[0] == ans),"")
+                    anslist.append(result)
+                data.append(fixed+record+anslist)
+                
+                
         if not args.noheading:
-            writer.writerow(head)
+            writer.writerow(head+ansconfig.anshead)
 
         for row in data:
             writer.writerow(row)
