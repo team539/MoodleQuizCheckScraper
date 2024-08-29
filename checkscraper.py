@@ -57,18 +57,26 @@ def main():
             if record:
                 submission=record[2]
                 
-                pattern = r'(ans\d+): ([^;]+) \[score\]'
-                matches = re.findall(pattern, submission) # from submission
+                pattern = r'(ans\d+): ([^;]+) \[score\]' # to be strict, pattern should be read from ansconfig.anshead
+                matches = re.findall(pattern, submission) 
 
                 anslist=[]
                 for ans in ansconfig.anshead:
                     result = next((tup[1] for tup in matches if tup[0] == ans),"")
                     anslist.append(result)
-                data.append(fixed+record+anslist)
+
                 
+                pattern = r'(prt\d+)-(\d+-[TF])'
+                matches = re.findall(pattern, submission) # from submission
+
+                prtlist=[]
+                for prt in ansconfig.prthead:
+                    result = [tup[1] for tup in matches if tup[0] == prt]
+                    prtlist.append(', '.join(map(str, result)))
+                data.append(fixed+record+anslist+prtlist)
                 
         if not args.noheading:
-            writer.writerow(head+ansconfig.anshead)
+            writer.writerow(head+ansconfig.anshead+ansconfig.prthead)
 
         for row in data:
             writer.writerow(row)
