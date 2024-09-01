@@ -30,9 +30,15 @@ def main():
     if match:
         uid=match.group(1)
 
-    attemptid = soup.find('input', {'name': 'pageurl'})['value'].split('attempt=')[1].split('&')[0]
-    cmid = soup.find('input', {'name': 'pageurl'})['value'].split('cmid=')[1]
+#    attemptid = soup.find('input', {'name': 'pageurl'})['value'].split('attempt=')[1].split('&')[0]
+    link=soup.find('a', href=lambda x: x and '/mod/quiz/reviewquestion.php' in x)
+    if link:
+        attemptid=link['href'].split('attempt=')[1].split('&')[0]
 
+
+    link=soup.find('a', href=lambda x: x and '/mod/quiz/review.php' in x)
+    if link:
+        cmid=link['href'].split('cmid=')[1].split('&')[0]
 
     link = soup.find('a', href=lambda x: x and '/question/type/stack/questiontestrun.php' in x)
 
@@ -43,8 +49,8 @@ def main():
     cname = breadcrumb.find('a').text
     cid = breadcrumb.find('a')['href'].split('id=')[1]
 
-    fixed=[cid,cname,qid,title,attemptid,uid,userdisplayname]
-    head=['cid','cname','qid','qname','attemptid','uid','uname','checkid','date','submission','status','grade']
+    fixed=[cid,cname,qid,cmid,title,attemptid,uid,userdisplayname]
+    head=['cid','cname','qid','cmid','qname','attemptid','uid','uname','stepid','date','submission','status','grade']
     
     table = tables[1]
     if True:
