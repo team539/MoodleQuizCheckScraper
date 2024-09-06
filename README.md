@@ -5,6 +5,7 @@
 * [DownThemAll](https://chromewebstore.google.com/detail/downthemall/nljkibfhlpcnanjgbnlnbjecgicbjkge?hl=ja&pli=1)などで， 全ユーザの review.html をローカルにダウンロードする
   * Mac Chrome では，ファイルの個数だけクリックしなきゃいけない？
      * Chrome のダウンロード設定で回避できる
+* questionid を得るには，教員が編集モードにしてダウンロードする必要がある
 
 ### 実行
 
@@ -13,6 +14,8 @@
 ```zsh
 cat review.html | python3 checkscraper.py > review.csv
 ```
+
+
 
 ### コマンドラインオプション
 `--noheading`,`-nh` 先頭のヘッディングを省く

@@ -34,17 +34,22 @@ def main():
     link=soup.find('a', href=lambda x: x and '/mod/quiz/reviewquestion.php' in x)
     if link:
         attemptid=link['href'].split('attempt=')[1].split('&')[0]
-
+    else:
+        attemptid=0
 
     link=soup.find('a', href=lambda x: x and '/mod/quiz/review.php' in x)
     if link:
         cmid=link['href'].split('cmid=')[1].split('&')[0]
-
+    else:
+        cmid=0
+        
     link = soup.find('a', href=lambda x: x and '/question/type/stack/questiontestrun.php' in x)
 
     if link:
         qid = link['href'].split('questionid=')[1].split('&')[0]
-
+    else:
+        qid = 0
+        
     breadcrumb = soup.find(id='page-navbar')
     cname = breadcrumb.find('a').text
     cid = breadcrumb.find('a')['href'].split('id=')[1]
