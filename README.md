@@ -5,12 +5,19 @@
 * [DownThemAll](https://chromewebstore.google.com/detail/downthemall/nljkibfhlpcnanjgbnlnbjecgicbjkge?hl=ja&pli=1)などで， 全ユーザの review.html をローカルにダウンロードする
   * Mac Chrome では，ファイルの個数だけクリックしなきゃいけない？
      * Chrome のダウンロード設定で回避できる
-* questionid を得るには，教員が編集モードにしてダウンロードする必要がある
+* questionid を得るには，その問題を編集できるロールのユーザがダウンロードする必要がある
 
 ### 実行
 
 * ansconfig.py に，意図した順に 'ans*','prt*' をリストする．
+  * それには問題の中を見る必要があるが，ダウンロードしたファイルに1回でも出てきた ans, prt を知るだけなら，
+```sh
+(grep -oh 'ans\d?*' review_*.html | grep -oh 'prt\d?*' review_*.html) | sort |uniq
+# cannnot egrep with regexp
+``
 
+
+* 実行
 ```zsh
 cat review.html | python3 checkscraper.py > review.csv
 ```
