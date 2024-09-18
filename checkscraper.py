@@ -51,7 +51,7 @@ def main():
         qid = 0
         
     breadcrumb = soup.find(id='page-navbar')
-    cname = breadcrumb.find('a').text
+    cname = breadcrumb.find('a').text.replace(" ", "").replace("\n", "").replace("\t", "")
     cid = breadcrumb.find('a')['href'].split('id=')[1]
 
     fixed=[cid,cname,qid,cmid,title,attemptid,uid,userdisplayname]
@@ -66,7 +66,8 @@ def main():
             record = row.find_all('td')  # Use 'th' if you want to extract headers
             record = [ele.text.strip() for ele in record]
             if record:
-                submission=record[2]
+                submission=record[2].replace("\"\"","EMPTYSTRING") # bs4 interpretes &quot;&quot; as ""
+                record[2]=submission
                 
                 pattern = r'(ans\d+): ([^;]+) \[score\]' # to be strict, pattern should be read from ansconfig.anshead
                 matches = re.findall(pattern, submission) 

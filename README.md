@@ -32,3 +32,9 @@ cat review.html | python3 checkscraper.py > review.csv
 for file in review\ \(0\).html; do cat $file | python3 ~/G/00todo/MoodleQuizCheckScraper/checkscraper.py ; done  | head -n 1 > a.csv
 for file in  a/*review\ \(*\).html; do cat $file | python3 ~/G/00todo/MoodleQuizCheckScraper/checkscraper.py -nh ; done  >> a.csv
 ```
+
+
+### Update
+* Moodle 4.4で，パンくずリストのコース略名に空白や改行が入るようになったのですべて除く修正
+  * 途中の空白も除いていいのか？真剣にやるなら正規表現で
+* allowempty されている空白の数式解答は，EMPTYANSWER．allowempty されている空白のノート記入は &quot;&quot; となる. BeatifulSoup4 により&quot;&quot; "\"\"" となる．従来はCSVでは """" に見えており，分解すると""""""となる．何かに強制的に置き換える？EMPTYSTRING（？）
