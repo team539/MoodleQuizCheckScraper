@@ -5,6 +5,12 @@ import re
 import argparse
 import ansconfig
 
+import sys
+import signal
+
+# Ignore SIGPIPE and don't throw exceptions on it
+signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+
 def main():
     html_content = sys.stdin.read()
     writer = csv.writer(sys.stdout)

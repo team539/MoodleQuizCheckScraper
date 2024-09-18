@@ -12,7 +12,7 @@
 * ansconfig.py に，意図した順に 'ans*','prt*' をリストする．
   * それには問題の中を見る必要があるが，ダウンロードしたファイルに1回でも出てきた ans, prt を知るだけなら，
 ```sh
-(grep -oh 'ans\d?*' review_*.html | grep -oh 'prt\d?*' review_*.html) | sort |uniq
+ (grep -oh 'ans\d\d*' *.html; grep -oh 'prt\d\d*' *.html) | sort |uniq
 # cannnot egrep with regexp
 ``
 
