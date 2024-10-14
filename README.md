@@ -1,6 +1,6 @@
 # MoodleQuizCheckScraper
 
-* 教師が受験結果のページ $(MOODLE)/mod/quiz/report.php?id=$(qid)&mode=overview を開く．
+* 教師が受験結果のページ `$(MOODLE)/mod/quiz/report.php?id=$(qid)&mode=overview` を開く．
   * 希望のソートをする．その順に review.html に番号がつく
 * [DownThemAll](https://chromewebstore.google.com/detail/downthemall/nljkibfhlpcnanjgbnlnbjecgicbjkge?hl=ja&pli=1)などで， 全ユーザの review.html をローカルにダウンロードする
   * Mac Chrome では，ファイルの個数だけクリックしなきゃいけない？
@@ -38,3 +38,7 @@ for file in  a/*review\ \(*\).html; do cat $file | python3 ~/G/00todo/MoodleQuiz
 * Moodle 4.4で，パンくずリストのコース略名に空白や改行が入るようになったのですべて除く修正
   * 途中の空白も除いていいのか？真剣にやるなら正規表現で
 * allowempty されている空白の数式解答は，EMPTYANSWER．allowempty されている空白のノート記入は &quot;&quot; となる. BeatifulSoup4 により&quot;&quot; "\"\"" となる．従来はCSVでは """" に見えており，分解すると""""""となる．何かに強制的に置き換える？EMPTYSTRING（？）
+
+
+## Note
+* "q55259:1_ans1" のようなidやnameがある．55259はattempごとに異なる．1_ans1はfirst questionのans1 fieldの意味か？
