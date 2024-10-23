@@ -8,6 +8,8 @@ import ansconfig
 import sys
 import signal
 
+# TODO: decompose prtgrades like in decompose.py
+
 # Ignore SIGPIPE and don't throw exceptions on it
 signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
@@ -65,7 +67,7 @@ def main():
     head=['cid','cname','cmid','qname','attemptid','uid','uname','qid','questionid','stepid','date','submission','status','grade']
     
     if not args.noheading:
-        writer.writerow(head+ansconfig.anshead+ansconfig.prthead)
+        writer.writerow(head+ansconfig.anshead+ansconfig.prthead+[prt + 'grade' for prt in ansconfig.prthead])
     
     tables = soup.find_all('table',class_='generaltable')
     
@@ -98,12 +100,20 @@ def main():
                     for prt in ansconfig.prthead:
                         result = [tup[1] for tup in matches if tup[0] == prt]
                         prtlist.append(', '.join(map(str, result)))
+                        
+                    pattern = r'(prt\d+): ([^|;]*)([!|;]|$)'
+                    matches = re.findall(pattern, submission) # from submission
+                    
+                    prtgradelist=[]
+                    for prt in ansconfig.prthead:
+                        result = [tup[1] for tup in matches if tup[0] == prt]
+                        prtgradelist.append(', '.join(map(str, result)))                        
                     
                     qid=0
                     if len(qids)>=questionid:
                         qid=qids[questionid-1]                        
                     
-                    data.append(fixed+[qid,questionid]+record+anslist+prtlist)
+                    data.append(fixed+[qid,questionid]+record+anslist+prtlist+prtgradelist)
 
             for row in data:
                 writer.writerow(row)
