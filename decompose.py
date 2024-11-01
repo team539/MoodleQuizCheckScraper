@@ -2,7 +2,7 @@ import sys
 import csv
 import re
 import argparse
-import ansconfig
+#import ansconfig
 
 import sys
 import signal
@@ -34,7 +34,7 @@ def main():
         submission=row[submissionpos]
 #        print(submission)
         
-        pattern = r'(ans\d+): ([^;]+) \[score\]' # to be strict, pattern should be read from ansconfig.anshead
+        pattern = r'(ans\d+): ([^;]+) \[score\]'
         matches = re.findall(pattern, submission)
         
         anss={}
@@ -78,7 +78,6 @@ def main():
                 prtgrades[tup[0]+'grade']=prtgrades[tup[0]]+'; '+tup[1] # not happening
         row.append(prtgrades)
         prtgradespos=-1
-        print(prtgrades)
                 
         table.append(row)
 

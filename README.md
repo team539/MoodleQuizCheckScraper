@@ -1,7 +1,7 @@
 # MoodleQuizCheckScraper
 
 * 教師が受験結果のページ `$(MOODLE)/mod/quiz/report.php?id=$(qid)&mode=overview` を開く．
-  * 希望のソートをする．次で，その順にreview.htmlに番号がつく
+  * 希望のソートをする．ダウンロードされた際に，review.htmlのファイル名にに番号がその順でつく
 * [DownThemAll](https://chromewebstore.google.com/detail/downthemall/nljkibfhlpcnanjgbnlnbjecgicbjkge?hl=ja&pli=1)などで， 全ユーザのreview.htmlをローカルにダウンロードする
   * Mac Chromeでは，ファイルの個数だけクリックしなきゃいけない？
      * No. Chromeのダウンロード設定で回避できる
