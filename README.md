@@ -2,14 +2,15 @@
 
 * 教師が受験結果のページ `$(MOODLE)/mod/quiz/report.php?id=$(qid)&mode=overview` を開く．
   * 希望のソートをする．ダウンロードされた際に，review.htmlのファイル名にに番号がその順でつく
-* [DownThemAll](https://chromewebstore.google.com/detail/downthemall/nljkibfhlpcnanjgbnlnbjecgicbjkge?hl=ja&pli=1)などで， 全ユーザのreview.htmlをローカルにダウンロードする
+* [DownThemAll!](https://addons.mozilla.org/ja/firefox/addon/downthemall/)などで， 全ユーザのreview.phpをローカルにダウンロードする
+  * Mask（ファイル名変換）は `*name*_*idx*.html` などで．
   * Mac Chromeでは，ファイルの個数だけクリックしなきゃいけない？
      * No. Chromeのダウンロード設定で回避できる
-* questionidを得るには，その問題を編集できるロール(Question Sharer on moodle.hig3.net)のユーザがダウンロードする必要がある
+* questionidを得るには，その問題を編集できるロール（システムコンテクストの共有問題ならそれに対応した）のユーザがダウンロードする必要．
 
 ### 実行
 
-* [scrape-decompose.py](scrape-decompose.py)と同じディレクトリのansconfig.pyに，意図した順に 'ans*','prt*' をリストする．
+* [scrape-decompose.py](scrape-decompose.py)と同じディレクトリの`ansconfig.py`に，[ansconfig-dist.py](ansconfig-dist.py)の形式で，意図した順に 'ans*','prt*' をリストする．
  ```sh
  vi ansconfig.py
  ```
@@ -18,24 +19,23 @@
   (grep -oh 'ans\d\d*' *.html; grep -oh 'prt\d\d*' *.html) | sort |uniq
 # cannnot egrep with regexp
 ```
-[decompose.py](decompose.py)はこれを自動でやるようなもの．
 
 
 * 実行
-```zsh
-cat review.html | python3 scraper-decompose.py > review.csv
+```sh
+cat review.html | python3 scrape-decompose.py > review.csv
 ```
 
 * 複数やるなら
 ```zsh
-for file in review\ \(0\).html; do cat $file | python3 scrape-decompose.py ; done  | head -n 1 > all.csv
-for file in review\ \(*\).html; do cat $file | python3 scrape-decompose.py -nh ; done  >> all.csv
+for file in review_001.html; do cat $file | python3 scrape-decompose.py ; done  | head -n 1 > all.csv
+for file in review_*.html; do cat $file | python3 scrape-decompose.py -nh ; done  >> all.csv
 ```
 
-* ansconfig.pyの編集を省き，複数のreview.htmlから抽出するには，
+* ansconfig.pyの編集を省き，複数のreview.htmlからans*,prt*を自動的に抽出するには，[scrape.py](scrape.py)と[decompose.py](decompose.py)の2段階で行う．
 ```zsh
-for file in review\ \(0\).html; do cat $file | python3 scrape.py ; done  | head -n 1 > all.csv
-for file in review\ \(*\).html; do cat $file | python3 scrape.py -nh ; done  >> all.csv
+for file in review_001.html; do cat $file | python3 scrape.py ; done  | head -n 1 > all.csv
+for file in review_*.html; do cat $file | python3 scrape.py -nh ; done  >> all.csv
 cat all.csv | python3 decompose.py > all1.csv
 ```
 
