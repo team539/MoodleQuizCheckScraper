@@ -10,7 +10,23 @@
 
 ### 実行
 
-* [scrape-decompose.py](scrape-decompose.py)と同じディレクトリの`ansconfig.py`に，[ansconfig-dist.py](ansconfig-dist.py)の形式で，意図した順に 'ans*','prt*' をリストする．
+
+
+* [scrape.py](scrape.py)で，すべてのreview.htmlからCSV形式でデータを取り出して連結する
+```zsh
+for file in review_001.html; do cat $file | python3 scrape.py ; done  | head -n 1 > all.csv
+for file in review_*.html; do cat $file | python3 scrape.py -nh ; done  >> all.csv
+```
+* [decompose.py](decompose.py)で，どのようなans,prtがあるのか，CSV内を探索し，それに対応するカラムを作って記録する．
+```zsh
+cat all.csv | python3 decompose.py > all1.csv
+```
+
+#### コマンドラインオプション
+`--noheading`,`-nh` 先頭のヘッディングを省く
+
+### 手でカラムを指定した1段階実行
+* `decompose.py`に任せず，[scrape-decompose.py](scrape-decompose.py)と同じディレクトリの`ansconfig.py`に，[ansconfig-dist.py](ansconfig-dist.py)の形式で，意図した順に 'ans*','prt*' をリストする．
  ```sh
  vi ansconfig.py
  ```
@@ -19,7 +35,6 @@
   (grep -oh 'ans\d\d*' *.html; grep -oh 'prt\d\d*' *.html) | sort |uniq
 # cannnot egrep with regexp
 ```
-
 
 * 実行
 ```sh
@@ -31,17 +46,6 @@ cat review.html | python3 scrape-decompose.py > review.csv
 for file in review_001.html; do cat $file | python3 scrape-decompose.py ; done  | head -n 1 > all.csv
 for file in review_*.html; do cat $file | python3 scrape-decompose.py -nh ; done  >> all.csv
 ```
-
-* ansconfig.pyの編集を省き，複数のreview.htmlからans*,prt*を自動的に抽出するには，[scrape.py](scrape.py)と[decompose.py](decompose.py)の2段階で行う．
-```zsh
-for file in review_001.html; do cat $file | python3 scrape.py ; done  | head -n 1 > all.csv
-for file in review_*.html; do cat $file | python3 scrape.py -nh ; done  >> all.csv
-cat all.csv | python3 decompose.py > all1.csv
-```
-
-### コマンドラインオプション
-`--noheading`,`-nh` 先頭のヘッディングを省く
-
 
 ### Update
 * Moodle 4.4で，パンくずリストのコース略名に空白や改行が入るようになったのですべて除く修正
