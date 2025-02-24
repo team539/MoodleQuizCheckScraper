@@ -71,14 +71,22 @@ def main():
         
         pattern = r'(prt\d+): ([^|;]*)([!|;]|$)'
         matches = re.findall(pattern, submission) # from submission
+        pattern2='# = (\d+(\.\d+)?)'
 
         prtgrades={}
+        prtgrade=""
         for tup in matches:
             if (tup[0]+'grade') not in prtgradelist:
                 prtgradelist.append(tup[0]+'grade')
             
             if tup[0] not in prtgrades.keys():
-                prtgrades[tup[0]+'grade']=tup[1]
+                prtgrade=tup[1]
+                if tup[1]=='!':
+                    prtgrade=''
+                else:
+                    match2 = re.search(pattern2, tup[1])
+                    prtgrade=match2.group(1)
+                prtgrades[tup[0]+'grade']=prtgrade
             else:
                 prtgrades[tup[0]+'grade']=prtgrades[tup[0]]+'; '+tup[1] # not happening
         row.append(prtgrades)

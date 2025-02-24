@@ -10,8 +10,6 @@
 
 ### 実行
 
-
-
 * [scrape.py](scrape.py)で，すべてのreview.htmlからCSV形式でデータを取り出して連結する
 ```zsh
 for file in review_001.html; do cat $file | python3 scrape.py ; done  | head -n 1 > all.csv
@@ -21,6 +19,9 @@ for file in review_*.html; do cat $file | python3 scrape.py -nh ; done  >> all.c
 ```zsh
 cat all.csv | python3 decompose.py > all1.csv
 ```
+
+## Specification
+submissionカラムの，prti: ! はprtgradeiカラムに空文字列をいれる．prti: # = 整数or浮動小数はprtgradeiカラムにその値を入れる．
 
 #### コマンドラインオプション
 * `--noheading`,`-nh` 先頭のヘッディングを省く
