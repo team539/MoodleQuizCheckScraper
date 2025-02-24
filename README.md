@@ -23,7 +23,8 @@ cat all.csv | python3 decompose.py > all1.csv
 ```
 
 #### コマンドラインオプション
-`--noheading`,`-nh` 先頭のヘッディングを省く
+* `--noheading`,`-nh` 先頭のヘッディングを省く
+* `-q 整数` 問題番号を指定する．問題番号は，review.html表が現れる順序で，1から始まる．指定しないとき，すべての問題を対象とする．
 
 ### 手でカラムを指定した1段階実行
 * `decompose.py`に任せず，[scrape-decompose.py](scrape-decompose.py)と同じディレクトリの`ansconfig.py`に，[ansconfig-dist.py](ansconfig-dist.py)の形式で，意図した順に 'ans*','prt*' をリストする．
@@ -46,6 +47,8 @@ cat review.html | python3 scrape-decompose.py > review.csv
 for file in review_001.html; do cat $file | python3 scrape-decompose.py ; done  | head -n 1 > all.csv
 for file in review_*.html; do cat $file | python3 scrape-decompose.py -nh ; done  >> all.csv
 ```
+
+* review.html内の複数問題には対応していない
 
 ### Update
 * Moodle 4.4で，パンくずリストのコース略名に空白や改行が入るようになったのですべて除く修正
