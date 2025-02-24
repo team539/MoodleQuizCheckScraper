@@ -13,6 +13,7 @@ signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("-nh","--noheading",action="store_true")
+    parser.add_argument("-q","--questionid", type=int, help="Specify the question ID as an integer")
     args=parser.parse_args()
 
     table=[]
@@ -23,16 +24,20 @@ def main():
     
     reader = csv.reader(sys.stdin)
     writer = csv.writer(sys.stdout)
-    submissionpos=13
+    questionidpos=8
+    submissionpos=11
     for row in reader:
         if top:
             head=row
-            submissionpos=head.index('submission')      
+            submissionpos=head.index('submission')
+            questionidpos=head.index('questionid')     
             top=False
             continue
         
         submission=row[submissionpos]
-#        print(submission)
+        
+        if args.questionid is not None and args.questionid!=int(row[questionidpos]):
+            continue
         
         pattern = r'(ans\d+): ([^;]+) \[score\]'
         matches = re.findall(pattern, submission)
